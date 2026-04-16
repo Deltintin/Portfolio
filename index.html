@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Martin Delobelle — Communication & Esport</title>
+  <meta name="description" content="Portfolio de Martin Delobelle — Chargé de communication, spécialiste esport. Alternant DUNE Énergie, responsable com Team Hinode, créateur Deltintin." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Cinzel:wght@400;700&family=DM+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       CSS VARIABLES
+    ========================================================= */
+    :root {
+      --color-bg-primary:    #0A1628;
+      --color-bg-secondary:  #0F1F3D;
+      --color-bg-card:       rgba(19, 39, 79, 0.55);
+      --color-accent-gold:   #C9A84C;
+      --color-accent-gold-light: #E8C97A;
+      --color-text-primary:  #F0EDE6;
+      --color-text-secondary:#8A9BB8;
+      --color-border:        rgba(201, 168, 76, 0.2);
+
+      --radius-sm:  0.5rem;
+      --radius-md:  10px;
+      --radius-lg:  14px;
+
+      --font-display: 'Cinzel', serif;
+      --font-heading: 'Archivo Black', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+
+      --section-padding: 7rem 0;
+      --container-max: 1200px;
+      --container-pad: 0 2rem;
+    }
+
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      overflow-x: hidden;
+      /* Grain texture via SVG filter */
+      position: relative;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* =========================================================
+       BACKGROUND DEPTH — canvas absolu pleine page
+    ========================================================= */
+    .bg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-canvas::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 65% 30% at 10% 5%,  rgba(35, 85, 190, 0.45) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 20% at 88% 8%,  rgba(201, 168, 76, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 18% at 5%  22%,  rgba(25, 65, 160, 0.38) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 15% at 75% 36%,  rgba(40, 90, 200, 0.30) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 14% at 12% 52%,  rgba(30, 70, 170, 0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 16% at 85% 66%,  rgba(35, 80, 185, 0.32) 0%, transparent 62%),
+        radial-gradient(ellipse 60% 18% at 20% 82%,  rgba(25, 60, 155, 0.38) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 12% at 70% 96%,  rgba(201, 168, 76, 0.07) 0%, transparent 60%);
+    }
+
+    /* Tram de points pleine page */
+    .bg-canvas::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(201, 168, 76, 0.09) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-position: 0 0;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    /* Formes géométriques SVG */
+    .bg-shape {
+      position: absolute;
+      pointer-events: none;
+      opacity: 1;
+    }
+
+    /* Grand anneau — hero droit */
+    .bg-shape--ring-1 {
+      width: 520px;
+      height: 520px;
+      top: -80px;
+      right: -120px;
+    }
+
+    /* Anneau moyen — section about/expériences */
+    .bg-shape--ring-2 {
+      width: 360px;
+      height: 360px;
+      top: 28%;
+      left: -90px;
+    }
+
+    /* Lignes diagonales — coin bas droit */
+    .bg-shape--lines {
+      width: 300px;
+      height: 300px;
+      bottom: 18%;
+      right: -40px;
+    }
+
+    /* Croix/grille — milieu page */
+    .bg-shape--cross {
+      width: 200px;
+      height: 200px;
+      top: 52%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Petit anneau — bas gauche */
+    .bg-shape--ring-3 {
+      width: 240px;
+      height: 240px;
+      bottom: 8%;
+      left: 5%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul { list-style: none; }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--container-pad);
+    }
+
+    section, header, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-divider {
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* =========================================================
+       TYPOGRAPHY HELPERS
+    ========================================================= */
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: var(--color-accent-gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 3.5rem;
+    }
+
+    /* =========================================================
+       SCROLL ANIMATIONS
+    ========================================================= */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger for children */
+    .stagger-children > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .stagger-children.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0s; }
+    .stagger-children.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.12s; }
+    .stagger-children.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.24s; }
+    .stagger-children.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:0.36s; }
+    .stagger-children.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:0.48s; }
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(10, 22, 40, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--color-border);
+      transition: box-shadow 0.3s ease;
+    }
+
+    #nav.scrolled {
+      box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .nav-logo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .nav-logo:hover { color: var(--color-accent-gold); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-accent-gold);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover { color: var(--color-text-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-links a[href="#contact"] {
+      border: 1px solid var(--color-accent-gold);
+      border-radius: 0.5rem;
+      padding: 0.25rem 0.65rem;
+      color: var(--color-text-primary);
+      transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+
+    .nav-links a[href="#contact"]::after {
+      display: none;
+    }
+
+    .nav-links a[href="#contact"]:hover {
+      background-color: var(--color-accent-gold);
+      color: var(--color-bg-primary) !important;
+      border-color: var(--color-accent-gold);
+    }
+
+    .nav-social {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      border-left: 1px solid var(--color-border);
+    }
+
+    .nav-social a {
+      color: var(--color-text-secondary);
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-social a:hover { color: var(--color-accent-gold); }
+
+    /* Burger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--color-text-primary);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: rgba(10, 22, 40, 0.97);
+      border-top: 1px solid var(--color-border);
+      padding: 1.5rem 2rem;
+      gap: 1.2rem;
+    }
+
+    .nav-mobile.open { display: flex; }
+
+    .nav-mobile a {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      transition: color 0.2s;
+    }
+
+    .nav-mobile a:hover { color: var(--color-accent-gold); }
+
+    .nav-mobile-social {
+      display: flex;
+      gap: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .nav-mobile-social a {
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7rem 0 0;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* LEFT */
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent-gold);
+      margin-bottom: 1.1rem;
+      animation: fadeInUp 0.6s 0.1s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3.2rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      animation: nameReveal 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+      opacity: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes nameReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-handle {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.1rem;
+      animation: fadeInUp 0.6s 0.35s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-roles {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: 1.2rem;
+      animation: fadeInUp 0.6s 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-roles span {
+      color: var(--color-text-secondary);
+    }
+
+    .hero-desc {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--color-text-secondary);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 2rem;
+      text-align: justify;
+      animation: fadeInUp 0.6s 0.65s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+      animation: fadeInUp 0.6s 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-social-hint {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      animation: fadeInUp 0.6s 0.95s ease forwards;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .hero-social-hint:hover { color: var(--color-accent-gold); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RIGHT — image + floating badges */
+    .hero-right {
+      position: relative;
+      animation: fadeInUp 0.8s 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      max-height: 75vh;
+      overflow: hidden;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+    }
+
+    /* Placeholder state — disparaît quand une vraie image est ajoutée */
+    .hero-image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--color-text-secondary);
+    }
+
+    .hero-image-placeholder svg { color: rgba(201,168,76,0.3); }
+
+    .hero-image-placeholder p {
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /*
+      PHOTO — Pour ajouter votre photo :
+      Remplacez le <div class="hero-image-placeholder"> par :
+      <img src="./images/photo.jpg" alt="Martin Delobelle"
+           style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+    */
+
+    /* Floating stat badges */
+    .hero-badge {
+      position: absolute;
+      background: rgba(10, 22, 40, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.65rem 1rem;
+      min-width: 110px;
+    }
+
+    .hero-badge-number {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--color-accent-gold);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-badge-label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin-top: 0.2rem;
+    }
+
+    .hero-badge--top-right {
+      top: 1.2rem;
+      right: -1.2rem;
+    }
+
+    .hero-badge--mid-left {
+      bottom: 35%;
+      left: -1.4rem;
+    }
+
+    .hero-badge--bottom-right {
+      bottom: 1.2rem;
+      right: -1.2rem;
+    }
+
+    .btn-primary {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: var(--color-accent-gold);
+      color: var(--color-bg-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201,168,76,0.25);
+    }
+
+    .btn-outline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--color-accent-gold);
+      border: 1px solid var(--color-accent-gold);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(201,168,76,0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201,168,76,0.12);
+    }
+
+    /* Tags ticker */
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .hero-ticker {
+      width: 100%;
+      overflow: hidden;
+      margin-top: 3.5rem;
+      padding-bottom: 0.5rem;
+      animation: fadeInUp 0.8s 1.2s ease forwards;
+      opacity: 0;
+      mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: ticker-scroll 30s linear infinite;
+    }
+
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    .ticker-tag {
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
+      padding: 0.4rem 1.1rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .ticker-tag:hover {
+      color: var(--color-accent-gold);
+      border-color: var(--color-accent-gold);
+    }
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    #about {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.75fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--color-text-secondary);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-values {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .value-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .value-card:hover {
+      border-color: rgba(201,168,76,0.5);
+      box-shadow: 0 0 20px rgba(201,168,76,0.08);
+    }
+
+    .value-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .value-icon {
+      color: var(--color-accent-gold);
+      flex-shrink: 0;
+    }
+
+    .value-label {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .value-desc {
+      font-size: 0.88rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    /* =========================================================
+       EXPERIENCES
+    ========================================================= */
+    #experiences {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .exp-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(201,168,76,0.45);
+      box-shadow: 0 0 20px rgba(201,168,76,0.08);
+      transform: translateY(-3px);
+    }
+
+    .exp-logo {
+      width: auto;
+      height: auto;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .exp-logo img {
+      display: block;
+      width: 72px;
+      height: auto;
+    }
+
+    .exp-period {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-accent-gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-company {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.2rem;
+    }
+
+    .exp-role {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .exp-sector {
+      font-size: 0.78rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+
+    .exp-missions {
+      border-top: 1px solid var(--color-border);
+      padding-top: 1rem;
+    }
+
+    .exp-missions li {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      padding: 0.35rem 0 0.35rem 1rem;
+      position: relative;
+      line-height: 1.5;
+      text-align: justify;
+    }
+
+    .exp-missions li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent-gold);
+    }
+
+    /* =========================================================
+       EXPÉRIENCES PASSÉES
+    ========================================================= */
+
+    .exp-past-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin-top: 3rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .exp-past-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .exp-past-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 0.8rem 1.2rem;
+      transition: border-color 0.2s;
+    }
+
+    .exp-past-item:hover {
+      border-color: var(--color-accent-gold);
+    }
+
+    .exp-past-item-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .exp-past-company {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .exp-past-role {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .exp-past-period {
+      font-size: 0.75rem;
+      color: var(--color-accent-gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .exp-past-missions {
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--color-border);
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .exp-past-missions li {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .exp-past-missions li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent-gold);
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+    #stats {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-card {
+      position: relative;
+      padding: 1.8rem 1.4rem 1.4rem;
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(201,168,76,0.5);
+      transform: translateY(-3px);
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-accent-gold), transparent);
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--color-accent-gold);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-context {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       RÉALISATIONS
+    ========================================================= */
+    #realisations {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .realisation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .realisation-item {
+      aspect-ratio: 4 / 3;
+      background: var(--color-bg-card);
+      border: 1px dashed rgba(201,168,76,0.3);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .realisation-item:hover {
+      border-color: rgba(201,168,76,0.6);
+      box-shadow: 0 0 24px rgba(201,168,76,0.1);
+      transform: scale(1.02);
+    }
+
+    /*
+      Pour ajouter une image :
+      1. Remplacez data-src par l'attribut src dans la balise <img>
+      2. Exemple : <img src="./images/visuel-1.jpg" alt="Description" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+    */
+    .realisation-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .realisation-placeholder-icon {
+      color: rgba(201,168,76,0.35);
+    }
+
+    .realisation-placeholder-text {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      text-align: center;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+
+    .skills-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-pill {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 1rem;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      color: var(--color-accent-gold);
+      border-color: var(--color-accent-gold);
+      background: rgba(201,168,76,0.05);
+    }
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+    #contact {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      justify-items: center;
+      max-width: 720px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    #contact .section-title,
+    #contact .section-subtitle {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .contact-item-icon {
+      color: var(--color-accent-gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact-item-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-item-value {
+      font-size: 0.95rem;
+      color: var(--color-text-primary);
+      transition: color 0.2s;
+    }
+
+    a.contact-item-value:hover { color: var(--color-accent-gold); }
+
+    .contact-social-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .contact-social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 1rem;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .contact-social-link:hover {
+      color: var(--color-accent-gold);
+      border-color: rgba(201,168,76,0.5);
+      background: rgba(201,168,76,0.04);
+    }
+
+    .avail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-accent-gold);
+      border: 1px solid rgba(201,168,76,0.44);
+      border-radius: 999px;
+      padding: 0.65rem 1.1rem;
+      background: rgba(201,168,76,0.16);
+      box-shadow: 0 0 0 1px rgba(201,168,76,0.1);
+    }
+
+    .avail-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent-gold);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.12);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* Contact form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /*
+      Pour activer le formulaire :
+      Remplacez action="" par votre URL Formspree : action="https://formspree.io/f/VOTRE_ID"
+      Ou utilisez Netlify Forms en ajoutant l'attribut netlify au <form> : <form netlify ...>
+    */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+
+    .form-input,
+    .form-textarea {
+      background: rgba(19, 39, 79, 0.7);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--color-accent-gold);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(138,155,184,0.5);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      border-top: 1px solid var(--color-border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    .footer-text span {
+      color: var(--color-accent-gold);
+    }
+
+    /* =========================================================
+       RESPONSIVE — Tablet
+    ========================================================= */
+    @media (max-width: 1024px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .hero-right {
+        max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .hero-badge--top-right  { right: 0; }
+      .hero-badge--bottom-right { right: 0; }
+      .hero-badge--mid-left   { left: 0; }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .exp-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .nav-links,
+      .nav-social {
+        display: none;
+      }
+
+      .nav-burger { display: flex; }
+    }
+
+    /* =========================================================
+       RESPONSIVE — Mobile
+    ========================================================= */
+    @media (max-width: 768px) {
+      :root {
+        --section-padding: 4.5rem 0;
+        --container-pad: 0 1.25rem;
+      }
+
+      #hero { padding-top: 5rem; }
+
+      .hero-inner { padding: 0 1.25rem; }
+
+      .hero-image-wrap { aspect-ratio: 4 / 3; }
+
+      .exp-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .realisation-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-ctas {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas de fond — dégradé + tram + formes géométriques -->
+  <div class="bg-canvas" aria-hidden="true">
+
+    <!-- Grand anneau hero droit -->
+    <svg class="bg-shape bg-shape--ring-1" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="260" cy="260" r="240" stroke="rgba(201,168,76,0.07)" stroke-width="1"/>
+      <circle cx="260" cy="260" r="190" stroke="rgba(201,168,76,0.05)" stroke-width="0.6"/>
+      <circle cx="260" cy="260" r="135" stroke="rgba(201,168,76,0.04)" stroke-width="0.5"/>
+    </svg>
+
+    <!-- Anneau moyen gauche -->
+    <svg class="bg-shape bg-shape--ring-2" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="180" cy="180" r="165" stroke="rgba(100,140,220,0.08)" stroke-width="1"/>
+      <circle cx="180" cy="180" r="120" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+    </svg>
+
+    <!-- Lignes diagonales bas droit -->
+    <svg class="bg-shape bg-shape--lines" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0"   y1="60"  x2="60"  y2="0"   stroke="rgba(201,168,76,0.07)" stroke-width="0.8"/>
+      <line x1="0"   y1="110" x2="110" y2="0"   stroke="rgba(201,168,76,0.06)" stroke-width="0.7"/>
+      <line x1="0"   y1="160" x2="160" y2="0"   stroke="rgba(201,168,76,0.05)" stroke-width="0.6"/>
+      <line x1="0"   y1="210" x2="210" y2="0"   stroke="rgba(201,168,76,0.05)" stroke-width="0.6"/>
+      <line x1="0"   y1="260" x2="260" y2="0"   stroke="rgba(201,168,76,0.04)" stroke-width="0.5"/>
+      <line x1="40"  y1="300" x2="300" y2="40"  stroke="rgba(201,168,76,0.04)" stroke-width="0.5"/>
+      <line x1="90"  y1="300" x2="300" y2="90"  stroke="rgba(201,168,76,0.03)" stroke-width="0.5"/>
+      <line x1="140" y1="300" x2="300" y2="140" stroke="rgba(201,168,76,0.03)" stroke-width="0.4"/>
+    </svg>
+
+    <!-- Grille croisée centre page -->
+    <svg class="bg-shape bg-shape--cross" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="50"  x2="200" y2="50"  stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <line x1="0" y1="100" x2="200" y2="100" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <line x1="0" y1="150" x2="200" y2="150" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <line x1="50"  y1="0" x2="50"  y2="200" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <line x1="150" y1="0" x2="150" y2="200" stroke="rgba(100,140,220,0.06)" stroke-width="0.6"/>
+      <circle cx="50"  cy="50"  r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="100" cy="50"  r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="150" cy="50"  r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="50"  cy="100" r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="100" cy="100" r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="150" cy="100" r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="50"  cy="150" r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="100" cy="150" r="1.5" fill="rgba(201,168,76,0.15)"/>
+      <circle cx="150" cy="150" r="1.5" fill="rgba(201,168,76,0.15)"/>
+    </svg>
+
+    <!-- Petit anneau bas gauche -->
+    <svg class="bg-shape bg-shape--ring-3" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="120" cy="120" r="110" stroke="rgba(100,140,220,0.07)" stroke-width="0.8"/>
+      <circle cx="120" cy="120" r="75"  stroke="rgba(100,140,220,0.05)" stroke-width="0.6"/>
+    </svg>
+
+  </div>
+
+  <!-- =========================================================
+       NAVIGATION
+  ========================================================= -->
+  <header id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Martin DELOBELLE</a>
+
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#about">À propos</a>
+        <a href="#experiences">Expériences</a>
+        <a href="#stats">En chiffres</a>
+        <a href="#realisations">Réalisations</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-social">
+        <a href="https://www.linkedin.com/in/martin-delobelle/" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="mailto:Mart1.delobelle@gmail.com" aria-label="Envoyer un email" class="nav-social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22 6 12 13 2 6"/>
+          </svg>
+        </a>
+        <a href="tel:+33637748495" aria-label="Appeler" class="nav-social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.97.35 1.92.69 2.82a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.26-1.26a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.82.69A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Burger for mobile -->
+      <button class="nav-burger" aria-label="Menu" aria-expanded="false" id="burger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile nav -->
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="#about"       onclick="closeMenu()">À propos</a>
+      <a href="#experiences" onclick="closeMenu()">Expériences</a>
+      <a href="#stats"       onclick="closeMenu()">En chiffres</a>
+      <a href="#realisations"onclick="closeMenu()">Réalisations</a>
+      <a href="#contact"     onclick="closeMenu()">Contact</a>
+      <div class="nav-mobile-social">
+        <a href="mailto:Mart1.delobelle@gmail.com" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22 6 12 13 2 6"/>
+          </svg>
+          Email
+        </a>
+        <a href="tel:+33637748495" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.97.35 1.92.69 2.82a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.26-1.26a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.82.69A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          Téléphone
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       HERO
+  ========================================================= -->
+  <section id="hero">
+    <div class="hero-inner">
+
+      <!-- LEFT : texte -->
+      <div class="hero-left">
+        <span class="hero-eyebrow">Communication &amp; Esport</span>
+
+        <h1 class="hero-name">Martin<br>DELOBELLE</h1>
+
+        <p class="hero-roles">
+          Chargé de communication
+        </p>
+
+        <p class="hero-desc">
+          Je construis des stratégies de communication impactantes. De la stratégie à l'opérationnel, je pense et crée le contenu.
+        </p>
+
+        <p class="hero-desc">
+          Curieux, motivé et ambitieux, je souhaite trouver l'entreprise qui me fera confiance pour 12 mois lors de ma 2e année de master.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#experiences" class="btn-primary">Voir mes expériences</a>
+          <a href="#contact"     class="btn-outline">Me contacter</a>
+        </div>
+
+      </div>
+
+      <!-- RIGHT : image + badges -->
+      <div class="hero-right">
+
+        <!-- Cadre image -->
+        <div class="hero-image-wrap">
+          <!--
+            PHOTO — Pour ajouter votre photo :
+            Supprimez le bloc hero-image-placeholder ci-dessous et ajoutez :
+            <img src="./images/photo.jpg" alt="Martin Delobelle"
+                 style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+          -->
+          <div class="hero-image-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <p>Votre photo ici<br><span style="font-size:0.7rem;opacity:0.5;">Format portrait recommandé</span></p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <!-- Infinite ticker -->
+    <div class="hero-ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span class="ticker-tag">Stratégie de communication</span>
+        <span class="ticker-tag">Social Media</span>
+        <span class="ticker-tag">Création de contenu</span>
+        <span class="ticker-tag">Community Management</span>
+        <span class="ticker-tag">Esport</span>
+        <span class="ticker-tag">Marketing digital</span>
+        <span class="ticker-tag">Identité de marque</span>
+        <span class="ticker-tag">Figma</span>
+        <span class="ticker-tag">Adobe Suite</span>
+        <span class="ticker-tag">Storytelling</span>
+        <span class="ticker-tag">Stratégie de communication</span>
+        <span class="ticker-tag">Social Media</span>
+        <span class="ticker-tag">Création de contenu</span>
+        <span class="ticker-tag">Community Management</span>
+        <span class="ticker-tag">Esport</span>
+        <span class="ticker-tag">Marketing digital</span>
+        <span class="ticker-tag">Identité de marque</span>
+        <span class="ticker-tag">Figma</span>
+        <span class="ticker-tag">Adobe Suite</span>
+        <span class="ticker-tag">Storytelling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       À PROPOS
+  ========================================================= -->
+  <section id="about" class="section-divider">
+    <div class="container">
+      <h2 class="section-title fade-up">À propos</h2>
+      <p class="section-subtitle fade-up"></p>
+
+      <div class="about-grid">
+        <div class="about-text fade-up">
+          <p>
+            Étudiant en 4e année à <strong>Esupcom Lille</strong>, je suis tombé dans la <strong>communication</strong> bien avant d'y mettre un pied en cours. En seconde, je gérais des <strong>comptes Instagram</strong> dédiés à l'actu foot. C'est là que j'ai compris ce qui faisait qu'un <strong>contenu prenait ou pas</strong>, sans jamais avoir ouvert un manuel de marketing.
+          </p>
+          <p>
+            Aujourd'hui je travaille sur <strong>trois fronts</strong> : chargé de communication en alternance chez <strong>DUNE Énergie</strong>, responsable communication de <strong>Team Hinode</strong> (structure esport amateur), et créateur de contenu sur <strong>LinkedIn</strong>, où je parle de com et d'esport business. Trois contextes très différents, mais la même logique derrière : <strong>comprendre une audience, construire un message, créer de la valeur</strong>.
+          </p>
+          <p>
+            Ce qui m'intéresse vraiment dans l'<strong>esport</strong>, c'est que les codes y <strong>évoluent plus vite qu'ailleurs</strong>. Les mécaniques qui y fonctionnent aujourd'hui finissent souvent par irriguer le reste du marketing quelques années plus tard. Je veux être dans cet espace, pas pour en observer la croissance, mais pour y <strong>construire quelque chose</strong>.
+          </p>
+        </div>
+
+        <div class="about-values stagger-children">
+          <!-- Curiosité -->
+          <div class="value-card">
+            <div class="value-header">
+              <div class="value-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+              <div class="value-label">Curiosité</div>
+            </div>
+            <p class="value-desc">Je cherche à comprendre avant d'agir. Chaque secteur, chaque audience, chaque canal a ses propres codes.</p>
+          </div>
+
+          <!-- Rigueur créative -->
+          <div class="value-card">
+            <div class="value-header">
+              <div class="value-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+              <div class="value-label">Rigueur créative</div>
+            </div>
+            <p class="value-desc">La créativité sans structure ne produit pas de résultats. J'aime autant la stratégie que l'exécution.</p>
+          </div>
+
+          <!-- Vision long terme -->
+          <div class="value-card">
+            <div class="value-header">
+              <div class="value-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              <div class="value-label">Vision long terme</div>
+            </div>
+            <p class="value-desc">Je construis des identités, pas des posts. Chaque contenu s'inscrit dans une narration plus grande.</p>
+          </div>
+
+          <!-- Apprentissage -->
+          <div class="value-card">
+            <div class="value-header">
+              <div class="value-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+              <div class="value-label">Apprentissage</div>
+            </div>
+            <p class="value-desc">J'apprends en continu par moi-même. J'aime découvrir de nouveaux logiciels ou stratégies et les mettre en pratique rapidement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       EXPÉRIENCES
+  ========================================================= -->
+  <section id="experiences" class="section-divider">
+    <div class="container">
+      <h2 class="section-title fade-up">Expériences</h2>
+      <p class="section-subtitle fade-up">2026. Trois terrains simultanés, une seule discipline : la communication.</p>
+
+      <div class="exp-grid stagger-children">
+
+        <!-- DUNE Énergie -->
+        <article class="exp-card">
+          <div class="exp-logo">
+            <img src="LOGO_ROND_DUNE_BLANC_RVB_A3.png" alt="Logo DUNE Énergie" style="width: 45px; height: 45px; object-fit: contain; display: block;" />
+          </div>
+          <div class="exp-period">Septembre 2025 – Présent</div>
+          <div class="exp-company">DUNE Énergie</div>
+          <div class="exp-role">Chargé de communication · Alternance</div>
+          <div class="exp-sector">Cabinet de courtage en énergie · Villeneuve-d'Ascq</div>
+          <ul class="exp-missions">
+            <li>Gestion et animation des réseaux sociaux notamment LinkedIn</li>
+            <li>Création de visuels et contenus éditoriaux hebdomadaires</li>
+            <li>Veille marché énergie et adaptation en contenu B2B</li>
+            <li>Création et écriture de newsletter interne &amp; externe</li>
+            <li>Création visuel pour activités commerciales internes</li>
+          </ul>
+        </article>
+
+        <!-- Team Hinode -->
+        <article class="exp-card">
+          <div class="exp-logo">
+            <img src="logo_hinode.png" alt="Logo Team Hinode" style="width: 45px; height: 45px; object-fit: contain; display: block;" />
+          </div>
+          <div class="exp-period">Octobre 2025 – Présent</div>
+          <div class="exp-company">Team Hinode</div>
+          <div class="exp-role">Responsable communication · Bénévole</div>
+          <div class="exp-sector">Structure esport amateur</div>
+          <ul class="exp-missions">
+            <li>Pilotage de la stratégie de communication de la structure</li>
+            <li>Coordination et supervision d'une équipe de communication</li>
+            <li>Prospection et activation de partenariats pour soutenir l'économie du club</li>
+            <li>Activités multiples dans des sphères différentes pour le développement de la structure</li>
+          </ul>
+        </article>
+
+        <!-- Deltintin -->
+        <article class="exp-card">
+          <div class="exp-logo">
+            <img src="Logo deltintin.png" alt="Logo Deltintin" style="width: 65px; height: 65px; object-fit: contain; display: block;" />
+          </div>
+          <div class="exp-period">Septembre 2025 – Présent</div>
+          <div class="exp-company">Deltintin</div>
+          <div class="exp-role">Créateur de contenu · Esport &amp; Communication</div>
+          <div class="exp-sector">LinkedIn · X · TikTok</div>
+          <ul class="exp-missions">
+            <li>Création de contenu sur la communication dans l'esport et l'esport business</li>
+            <li>Construction d'une audience qualifiée autour de l'expertise com/esport</li>
+            <li>Développement de compétences liées à la communication digitale</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <!-- Expériences passées -->
+      <p class="exp-past-title fade-up">Expériences passées</p>
+      <div class="exp-past-list stagger-children">
+
+        <div class="exp-past-item">
+          <div class="exp-past-item-header">
+            <span class="exp-past-company">AGSS de l'UDAF</span>
+            <span class="exp-past-role">Chargé de communication · Alternance</span>
+            <span class="exp-past-period">Nov 2023 – Sep 2025</span>
+          </div>
+          <ul class="exp-past-missions">
+            <li>Création de la stratégie de communication</li>
+            <li>Harmonisation des supports de communication</li>
+            <li>Création &amp; développement des réseaux sociaux de l'entreprise</li>
+            <li>Mise en forme du rapport annuel (90 pages) pour l'assemblée générale</li>
+          </ul>
+        </div>
+
+        <div class="exp-past-item">
+          <div class="exp-past-item-header">
+            <span class="exp-past-company">Thales</span>
+            <span class="exp-past-role">Chargé de communication interne · Stage</span>
+            <span class="exp-past-period">Mai 2023 – Août 2023</span>
+          </div>
+          <ul class="exp-past-missions">
+            <li>Organisation d'événements internes (de 10 à 300 collaborateurs)</li>
+            <li>Gestion de la communication interne (affichage écran &amp; emailing interne)</li>
+          </ul>
+        </div>
+
+        <div class="exp-past-item">
+          <div class="exp-past-item-header">
+            <span class="exp-past-company">91e Minute</span>
+            <span class="exp-past-role">Community Manager · Bénévole · Compte Instagram foot</span>
+            <span class="exp-past-period">Sep 2020 – Mai 2022</span>
+          </div>
+          <ul class="exp-past-missions">
+            <li>Création de contenu pour le compte instagram</li>
+            <li>Réalisation de visuels pour accompagner le contenu</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:2.5rem;">
+        <a href="CV - ATS.pdf" target="_blank" style="
+          display:inline-flex;align-items:center;gap:.6rem;
+          border:1px solid rgba(212,175,55,.4);
+          color:rgba(255,255,255,.8);
+          font-size:.875rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+          padding:.8rem 1.75rem;border-radius:.5rem;text-decoration:none;
+          transition:border-color .2s,color .2s;
+        " onmouseover="this.style.background='var(--color-accent-gold)';this.style.color='#0d1b2e';this.style.borderColor='var(--color-accent-gold)'" onmouseout="this.style.background='transparent';this.style.color='rgba(255,255,255,.8)';this.style.borderColor='rgba(212,175,55,.4)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir mon CV
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       STATISTIQUES
+  ========================================================= -->
+  <section id="stats" class="section-divider">
+    <div class="container">
+      <h2 class="section-title fade-up">En chiffres</h2>
+      <p class="section-subtitle fade-up">Des audiences construites, pas héritées</p>
+
+      <div class="stats-grid stagger-children">
+
+        <div class="stat-card">
+          <span class="stat-context">Instagram · Foot</span>
+          <div class="stat-number" data-target="2000" data-prefix="" data-suffix="">0</div>
+          <div class="stat-label">Abonnés en 6 mois, sans budget</div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-context">Instagram · Foot</span>
+          <div class="stat-number" data-target="35000" data-prefix="" data-suffix="">0</div>
+          <div class="stat-label">Abonnés | full organique, équipe de 5</div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-context">Team Hinode · Esport</span>
+          <div class="stat-number" data-target="3500" data-prefix="" data-suffix="">0</div>
+          <div class="stat-label">Abonnés | croissance exponentielle</div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-context">Team Hinode · Esport</span>
+          <div class="stat-number" data-target="250000" data-prefix="" data-suffix="">0</div>
+          <div class="stat-label">Vues par mois | 100 % organique avec seulement 3k abonnés</div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       RÉALISATIONS
+  ========================================================= -->
+  <section id="realisations" class="section-divider">
+    <div class="container">
+      <h2 class="section-title fade-up">Réalisations</h2>
+      <p class="section-subtitle fade-up">Quelques créations sur Adobe Suite · Canva · Figma</p>
+
+      <div class="realisation-grid stagger-children">
+
+        <!--
+          VISUEL 1 — Pour ajouter votre image :
+          Remplacez le contenu de ce div par :
+          <img src="./images/visuel-1.jpg" alt="Description de la réalisation" />
+          data-src : chemin de l'image à renseigner
+        -->
+        <div class="realisation-item" data-src="">
+          <svg class="realisation-placeholder-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p class="realisation-placeholder-text">Ajouter un visuel<br><span style="font-size:0.72rem;opacity:0.6;">Visuel DUNE Énergie / Hinode / Deltintin</span></p>
+        </div>
+
+        <!--
+          VISUEL 2 — Pour ajouter votre image :
+          Remplacez le contenu de ce div par :
+          <img src="./images/visuel-2.jpg" alt="Description de la réalisation" />
+        -->
+        <div class="realisation-item" data-src="">
+          <svg class="realisation-placeholder-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p class="realisation-placeholder-text">Ajouter un visuel<br><span style="font-size:0.72rem;opacity:0.6;">Post social media / Identité visuelle</span></p>
+        </div>
+
+        <!--
+          VISUEL 3 — Pour ajouter votre image :
+          Remplacez le contenu de ce div par :
+          <img src="./images/visuel-3.jpg" alt="Description de la réalisation" />
+        -->
+        <div class="realisation-item" data-src="">
+          <svg class="realisation-placeholder-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p class="realisation-placeholder-text">Ajouter un visuel<br><span style="font-size:0.72rem;opacity:0.6;">Fiche pratique Figma / Support interne</span></p>
+        </div>
+
+        <!--
+          VISUEL 4 — Pour ajouter votre image :
+          Remplacez le contenu de ce div par :
+          <img src="./images/visuel-4.jpg" alt="Description de la réalisation" />
+        -->
+        <div class="realisation-item" data-src="">
+          <svg class="realisation-placeholder-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p class="realisation-placeholder-text">Ajouter un visuel<br><span style="font-size:0.72rem;opacity:0.6;">Maillot Hinode / Contenu Deltintin</span></p>
+        </div>
+
+      </div>
+
+      <!-- Outils -->
+      <div class="skills-pills fade-up">
+        <span class="skill-pill">Photoshop</span>
+        <span class="skill-pill">Illustrator</span>
+        <span class="skill-pill">After Effects</span>
+        <span class="skill-pill">Premiere Pro</span>
+        <span class="skill-pill">InDesign</span>
+        <span class="skill-pill">Blender</span>
+        <span class="skill-pill">Canva</span>
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">WordPress</span>
+        <span class="skill-pill">Notion</span>
+        <span class="skill-pill">Brevo</span>
+        <span class="skill-pill">IA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       CONTACT
+  ========================================================= -->
+  <section id="contact" class="section-divider">
+    <div class="container">
+      <h2 class="section-title fade-up">Contact</h2>
+      <p class="section-subtitle fade-up">Disponible pour une alternance à partir de septembre 2026</p>
+
+      <div class="contact-grid">
+
+        <div class="contact-info fade-up">
+          <!-- Email -->
+          <!-- COMPLÉTER : remplacer [email@email.com] par votre adresse email -->
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <a href="mailto:Mart1.delobelle@gmail.com" class="contact-item-value">Mart1.delobelle@gmail.com</a>
+            </div>
+          </div>
+
+          <!-- Localisation -->
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Localisation</div>
+              <span class="contact-item-value">Lille / Paris (mobile géographiquement)</span>
+            </div>
+          </div>
+
+          <!-- Me contacter -->
+          <div>
+            <div class="contact-item-label" style="margin-bottom:0.6rem;">Me contacter</div>
+            <div class="contact-social-links">
+
+              <a href="https://www.linkedin.com/in/martin-delobelle/" target="_blank" rel="noopener" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect x="2" y="9" width="4" height="12"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
+                LinkedIn
+              </a>
+
+              <a href="mailto:Mart1.delobelle@gmail.com" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22 6 12 13 2 6"/>
+                </svg>
+                mart1.delobelle@gmail.com
+              </a>
+
+              <a href="tel:+33637748495" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.97.35 1.92.69 2.82a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.26-1.26a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.82.69A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                06 37 74 84 95
+              </a>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+  <footer>
+    <p class="footer-text">
+      © 2025 <span>Martin Delobelle</span> — Tous droits réservés
+    </p>
+  </footer>
+
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================= -->
+  <script>
+    /* -------------------------------------------------------
+       NAV : scroll shadow + burger
+    ------------------------------------------------------- */
+    const nav = document.getElementById('nav');
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
+
+    burger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
+    /* -------------------------------------------------------
+       INTERSECTION OBSERVER — fade-up & stagger
+    ------------------------------------------------------- */
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up, .stagger-children').forEach(el => {
+      fadeObserver.observe(el);
+    });
+
+    /* -------------------------------------------------------
+       COUNT-UP ANIMATION
+    ------------------------------------------------------- */
+    function formatNumber(n) {
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+    }
+
+    function animateCounter(el) {
+      const target   = parseInt(el.dataset.target, 10);
+      const suffix   = el.dataset.suffix || '';
+      const duration = 3200;
+      const steps    = 120;
+      const interval = duration / steps;
+      let current = 0;
+      let step = 0;
+
+      const timer = setInterval(() => {
+        step++;
+        const progress = step / steps;
+        // Ease-out quint — démarre très lentement, accélère puis ralentit à la fin
+        const eased = 1 - Math.pow(1 - progress, 5);
+        current = Math.round(target * eased);
+
+        el.textContent = formatNumber(current) + suffix;
+
+        if (step >= steps) {
+          clearInterval(timer);
+          el.textContent = formatNumber(target) + suffix;
+        }
+      }, interval);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('[data-target]').forEach(el => {
+      counterObserver.observe(el);
+    });
+
+    /* -------------------------------------------------------
+       ACTIVE NAV LINK on scroll
+    ------------------------------------------------------- */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-links a, .nav-mobile a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            const active = link.getAttribute('href') === '#' + id;
+            link.style.color = active
+              ? 'var(--color-accent-gold)'
+              : '';
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+    /* -------------------------------------------------------
+       TICKER DRAG SCROLL
+    ------------------------------------------------------- */
+    const ticker = document.querySelector('.hero-ticker');
+    if (ticker) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      ticker.addEventListener('mousedown', (e) => {
+        isDown = true;
+        ticker.classList.add('dragging');
+        startX = e.pageX - ticker.offsetLeft;
+        scrollLeft = ticker.scrollLeft;
+      });
+
+      ticker.addEventListener('mouseleave', () => {
+        isDown = false;
+        ticker.classList.remove('dragging');
+      });
+
+      ticker.addEventListener('mouseup', () => {
+        isDown = false;
+        ticker.classList.remove('dragging');
+      });
+
+      ticker.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - ticker.offsetLeft;
+        const walk = (x - startX) * 1.5; // scroll-fast
+        ticker.scrollLeft = scrollLeft - walk;
+      });
+
+      ticker.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > 0) {
+          ticker.scrollLeft += e.deltaY;
+          e.preventDefault();
+        }
+      }, { passive: false });
+    }
+  </script>
+
+  <!-- ===================== SCROLL POPUP ===================== -->
+  <div id="scroll-popup" style="
+    display:none;position:fixed;inset:0;z-index:9999;
+    align-items:center;justify-content:center;
+  ">
+    <div id="scroll-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);"></div>
+    <div style="
+      position:relative;
+      background:linear-gradient(135deg,#0d1b2e 60%,#132338);
+      border:1px solid rgba(212,175,55,.35);
+      border-radius:1.25rem;
+      padding:3rem 3.5rem 2.5rem;
+      text-align:center;
+      max-width:420px;
+      width:90%;
+      box-shadow:0 30px 80px rgba(0,0,0,.7);
+      animation:popupIn .4s cubic-bezier(.22,1,.36,1) both;
+    ">
+      <div style="font-size:2rem;margin-bottom:1rem;">👀</div>
+      <h3 style="
+        font-size:1.25rem;font-weight:700;color:#fff;
+        margin:0 0 .75rem;line-height:1.35;
+      ">Tu es arrivé jusqu'ici…</h3>
+      <p style="
+        font-size:.95rem;color:rgba(255,255,255,.7);
+        line-height:1.6;margin:0 0 1rem;
+      ">
+        C'est pas un hasard.<br>
+        Si mon profil t'intéresse, ne pars pas sans qu'on se parle.
+      </p>
+      <a href="tel:+33637748495" style="
+        display:inline-block;
+        background:var(--color-accent-gold);
+        color:#0d1b2e;
+        font-weight:700;font-size:.9rem;
+        letter-spacing:.06em;text-transform:uppercase;
+        padding:.85rem 2rem;border-radius:.5rem;
+        text-decoration:none;
+        transition:opacity .2s;
+      " onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+        📞 &nbsp;Appelle-moi<br>au 06 37 74 84 95
+      </a>
+      <p style="margin:.75rem 0 0;font-size:.8rem;color:rgba(255,255,255,.35);">
+        ou continue à explorer
+      </p>
+      <button id="scroll-popup-close" aria-label="Fermer" style="
+        position:absolute;top:.9rem;right:1.1rem;
+        background:none;border:none;
+        color:rgba(255,255,255,.4);font-size:1.5rem;
+        cursor:pointer;line-height:1;
+      ">&times;</button>
+    </div>
+  </div>
+
+  <style>
+    @keyframes popupIn {
+      from { opacity:0; transform:scale(.88) translateY(20px); }
+      to   { opacity:1; transform:scale(1)  translateY(0); }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const popup   = document.getElementById('scroll-popup');
+      const overlay = document.getElementById('scroll-overlay');
+      const close   = document.getElementById('scroll-popup-close');
+      const target  = document.getElementById('stats');
+
+      function openPopup()  { popup.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+      function closePopup() { popup.style.display = 'none';  document.body.style.overflow = ''; }
+
+      close.addEventListener('click', closePopup);
+      overlay.addEventListener('click', closePopup);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+
+      const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setTimeout(openPopup, 600);
+          obs.disconnect();
+        }
+      }, { threshold: 0.35 });
+
+      obs.observe(target);
+    })();
+  </script>
+</body>
+</html>
