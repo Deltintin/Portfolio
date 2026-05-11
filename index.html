@@ -243,15 +243,18 @@
       left: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(10, 22, 40, 0.82);
+      background: rgba(10, 22, 40, 0.7);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--color-border);
-      transition: box-shadow 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     #nav.scrolled {
-      box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+      background: rgba(10, 22, 40, 0.95);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
     }
 
     .nav-inner {
